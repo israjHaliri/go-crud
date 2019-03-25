@@ -71,38 +71,7 @@ func FindById(id int) model.Employee {
 	return employee
 }
 
-func Edit(id int) model.Employee {
-	db := config.Connection()
-
-	selDB, err := db.Query("SELECT * FROM Employee WHERE id=?", id)
-
-	if err != nil {
-		panic(err.Error())
-	}
-
-	employee := model.Employee{}
-
-	for selDB.Next() {
-		var id int
-		var name, city string
-
-		err = selDB.Scan(&id, &name, &city)
-
-		if err != nil {
-			panic(err.Error())
-		}
-
-		employee.Id = id
-		employee.Name = name
-		employee.City = city
-	}
-
-	defer db.Close()
-
-	return employee
-}
-
-func Insert(name string, city string) {
+func Save(name string, city string) {
 	db := config.Connection()
 
 	prepare, err := db.Prepare("INSERT INTO Employee(name, city) VALUES(?,?)")
