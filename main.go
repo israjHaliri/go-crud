@@ -20,8 +20,6 @@ func main() {
 	http.HandleFunc("/update", controller.Update)
 	http.HandleFunc("/delete", controller.Delete)
 
-	http.HandleFunc("/employees", controller.GetEmployee)
-
 	err := http.ListenAndServe(":8080", nil)
 
 	if err != nil {
