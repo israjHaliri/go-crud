@@ -6,7 +6,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-func FindAll() []model.Employee {
+func FindAllEmployee() []model.Employee {
 	db := config.Connection()
 
 	selDB, err := db.Query("SELECT * FROM Employee ORDER BY id DESC")
@@ -40,7 +40,7 @@ func FindAll() []model.Employee {
 	return result
 }
 
-func FindById(id int) model.Employee {
+func FindEmployeeById(id int) model.Employee {
 	db := config.Connection()
 
 	selDB, err := db.Query("SELECT * FROM Employee WHERE id=?", id)
@@ -71,7 +71,7 @@ func FindById(id int) model.Employee {
 	return employee
 }
 
-func Save(name string, city string) {
+func SaveEmployee(name string, city string) {
 	db := config.Connection()
 
 	prepare, err := db.Prepare("INSERT INTO Employee(name, city) VALUES(?,?)")
@@ -85,7 +85,7 @@ func Save(name string, city string) {
 	defer db.Close()
 }
 
-func Update(name string, city string, uid int) {
+func UpdateEmployee(name string, city string, uid int) {
 	db := config.Connection()
 
 	prepare, err := db.Prepare("UPDATE Employee SET name=?, city=? WHERE id=?")
@@ -99,7 +99,7 @@ func Update(name string, city string, uid int) {
 	defer db.Close()
 }
 
-func Delete(id int) {
+func DeleteEmployee(id int) {
 	db := config.Connection()
 
 	delForm, err := db.Prepare("DELETE FROM Employee WHERE id=?")
