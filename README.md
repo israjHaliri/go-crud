@@ -14,4 +14,13 @@
         PRIMARY KEY (`id`)
       ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
     + go run main.go
-   
+
+
+
+GET http://localhost:7000/employees
+GET http://localhost:7000/employees?id=7
+DELETE http://localhost:7000/employees?id=7
+POST http://localhost:7000/employees
+PUT http://localhost:7000/employees
+
+*note : using net http limitation for routing and path

@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	log.Println("Server started on: http://localhost:8080")
+	log.Println("Server started on: http://localhost:7000")
 
 	http.Handle("/static/",
 		http.StripPrefix("/static/",
@@ -20,7 +20,10 @@ func main() {
 	http.HandleFunc("/update", controller.Update)
 	http.HandleFunc("/delete", controller.Delete)
 
-	err := http.ListenAndServe(":8080", nil)
+	//api uri
+	http.HandleFunc("/employees", controller.Employee)
+
+	err := http.ListenAndServe(":7000", nil)
 
 	if err != nil {
 		panic(err.Error())

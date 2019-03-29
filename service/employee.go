@@ -71,7 +71,7 @@ func FindEmployeeById(id int) model.Employee {
 	return employee
 }
 
-func SaveEmployee(name string, city string) {
+func SaveEmployee(name string, city string) model.Employee {
 	db := config.Connection()
 
 	prepare, err := db.Prepare("INSERT INTO Employee(name, city) VALUES(?,?)")
@@ -80,12 +80,25 @@ func SaveEmployee(name string, city string) {
 		panic(err.Error())
 	}
 
-	prepare.Exec(name, city)
+	result, err := prepare.Exec(name, city)
+
+	lastId, errLastId := result.LastInsertId()
+
+	if errLastId != nil {
+		panic(err.Error())
+	}
 
 	defer db.Close()
+
+	employee := model.Employee{}
+	employee.Id = int(lastId)
+	employee.Name = name
+	employee.City = city
+
+	return employee
 }
 
-func UpdateEmployee(name string, city string, uid int) {
+func UpdateEmployee(name string, city string, uid int) model.Employee {
 	db := config.Connection()
 
 	prepare, err := db.Prepare("UPDATE Employee SET name=?, city=? WHERE id=?")
@@ -97,6 +110,13 @@ func UpdateEmployee(name string, city string, uid int) {
 	prepare.Exec(name, city, uid)
 
 	defer db.Close()
+
+	employee := model.Employee{}
+	employee.Id = uid
+	employee.Name = name
+	employee.City = city
+
+	return employee
 }
 
 func DeleteEmployee(id int) {
